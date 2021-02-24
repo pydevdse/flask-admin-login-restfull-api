@@ -29,7 +29,6 @@ app.config['SECRET_KEY'] = "super secret key"
 app.config['SECURITY_PASSWORD_SALT'] = os.environ.get("SECURITY_PASSWORD_SALT", '146585145368132386173505678016728509634')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SECURITY_REGISTERABLE'] = True
-#app.config['SECURITY_LOGIN_URL'] = '/login_user'
 
 db = SQLAlchemy(app)
 
@@ -87,25 +86,18 @@ def security_context_processor():
 def home():
     return redirect( url_for('admin.index') )
 
-@app.route('/login_user')
-def login():
-    return '<h3>Login</h3>'
-
 class ApiLogin(Resource):
-    def get(self):
-        print('get')
-        return
     def post(self):
+        print('post')
+        return
+    def get(self):
         if not request.json or not 'username' in request.json or not 'password' in request.json:
             return jsonify({"eroor": "json type error"})
         user = db.session.query(User).filter_by(email=request.json['username']).first()
-        #for att in dir(user):
-        #    print(att, getattr(user, att))
         if user and user.verify_and_update_password(request.json['password']):
             if user.roles == []: role = 'not roles'
             else: 
                 role = [r.name for r in user.roles]
-            print(role)
             user_info = {'username': user.email, 'user_id': user.id, 'role': str(role)}
             return jsonify(user_info)
         return jsonify({'error': 'user not found or password incorrect'})
