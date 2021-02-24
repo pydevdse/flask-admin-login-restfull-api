@@ -1,0 +1,5 @@
+/env
+/flask-admin-api/env
+/flask-login-api/env
+/__pycache__
+/.idea
