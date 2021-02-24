@@ -12,7 +12,6 @@ from flask_restful import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
-app.config['SECURITY_PASSWORD_SALT'] = 'none'
 # Configure application to route to the Flask-Admin index view upon login
 app.config['SECURITY_POST_LOGIN_VIEW'] = '/admin/'
 # Configure application to route to the Flask-Admin index view upon logout
